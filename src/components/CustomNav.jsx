@@ -1,22 +1,11 @@
 import { useState } from "react";
-import menu from "../../images/menu.svg";
-import closeMenu from "../../images/closeMenu.svg";
-import right from "../../images/right.svg";
+import menu from "../images/menu.svg";
+import closeMenu from "../images/closeMenu.svg";
+import right from "../images/right.svg";
 import { Link, NavLink } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { useLogout } from "../../hooks/useLogout";
 
 export default function CustomNav() {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const { user } = useAuth();
-  const logout = useLogout();
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-
-    if (toggleMenu) setToggleMenu(false); // only close if it's open
-    logout();
-  };
 
   if (toggleMenu) {
     document.body.style.overflow = "hidden";
@@ -139,18 +128,6 @@ export default function CustomNav() {
               <p>Master yourself</p>
               <img src={right} alt="" />
             </NavLink>
-
-            {user ? (
-              <button
-                onClick={handleLogout}
-                className="p-2.5 flex items-center justify-between cursor-pointer"
-              >
-                <p>Log out</p>
-                <img src={right} alt="" />
-              </button>
-            ) : (
-              ""
-            )}
 
             <a
               href="https://pages.donately.com/noirlabs/campaign/launch-portal-x/donate"

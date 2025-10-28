@@ -1,22 +1,11 @@
 import { useState } from "react";
-import menu from "../../images/menu.svg";
-import closeMenu from "../../images/closeMenu.svg";
-import right from "../../images/right.svg";
+import menu from "../images/menu.svg";
+import closeMenu from "../images/closeMenu.svg";
+import right from "../images/right.svg";
 import { Link, NavLink } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { useLogout } from "../../hooks/useLogout";
 
 export default function Nav() {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const { user } = useAuth();
-  const logout = useLogout();
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-
-    if (toggleMenu) setToggleMenu(false); // only close if it's open
-    logout();
-  };
 
   if (toggleMenu) {
     document.body.style.overflow = "hidden";
@@ -76,25 +65,14 @@ export default function Nav() {
               Find Opportunities
             </NavLink>
 
-            {user ? (
-              <button
-                onClick={handleLogout}
-                className="nav-link-active p-[5.17px] cursor-pointer"
-              >
-                <p>Log out</p>
-              </button>
-            ) : (
-              <NavLink
-                to="/signin"
-                className={({ isActive }) =>
-                  `${
-                    isActive ? "text-(--active-100)" : "text-white"
-                  } p-[5.17px]`
-                }
-              >
-                Login
-              </NavLink>
-            )}
+            <NavLink
+              to="/signin"
+              className={({ isActive }) =>
+                `${isActive ? "text-(--active-100)" : "text-white"} p-[5.17px]`
+              }
+            >
+              Login
+            </NavLink>
 
             <NavLink
               to="/beta"
@@ -154,26 +132,16 @@ export default function Nav() {
               <img src={right} alt="" />
             </NavLink>
 
-            {user ? (
-              <button
-                onClick={handleLogout}
-                className="p-2.5 flex items-center justify-between"
-              >
-                <p>Log out</p>
-                <img src={right} alt="" />
-              </button>
-            ) : (
-              <NavLink
-                to="/signin"
-                onClick={() => {
-                  setToggleMenu(!toggleMenu);
-                }}
-                className="p-2.5 nav-link-active flex items-center justify-between"
-              >
-                <p>Log in</p>
-                <img src={right} alt="" />
-              </NavLink>
-            )}
+            <NavLink
+              to="/signin"
+              onClick={() => {
+                setToggleMenu(!toggleMenu);
+              }}
+              className="p-2.5 nav-link-active flex items-center justify-between"
+            >
+              <p>Log in</p>
+              <img src={right} alt="" />
+            </NavLink>
 
             <a
               href="https://pages.donately.com/noirlabs/campaign/launch-portal-x/donate"

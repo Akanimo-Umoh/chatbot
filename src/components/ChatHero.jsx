@@ -1,5 +1,5 @@
 import React from "react";
-import power from "../../images/power.png";
+import power from "../images/power.png";
 
 export default function ChatHero() {
   return (

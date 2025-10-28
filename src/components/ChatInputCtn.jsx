@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import send from "../../images/send.svg";
-import attach from "../../images/attach.svg";
-import clip from "../../images/clip.svg";
-import record from "../../images/record.svg";
-import sendMsg from "../../images/sendMsg.svg";
+import send from "../images/send.svg";
+import attach from "../images/attach.svg";
+import clip from "../images/clip.svg";
+import record from "../images/record.svg";
+import sendMsg from "../images/sendMsg.svg";
 
 export default function ChatInputCtn({ handleSubmit, text, setText }) {
   const inputRef = useRef(null);

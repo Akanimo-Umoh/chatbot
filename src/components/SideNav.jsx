@@ -1,20 +1,12 @@
 import React from "react";
-import cal from "../../images/cal.svg";
-import opps from "../../images/opps.svg";
-import bot from "../../images/bot.svg";
-import help from "../../images/help.svg";
-import logoutIcon from "../../images/logout.svg";
+import cal from "../images/cal.svg";
+import opps from "../images/opps.svg";
+import bot from "../images/bot.svg";
+import help from "../images/help.svg";
+import logoutIcon from "../images/logout.svg";
 import { NavLink } from "react-router-dom";
-import { useLogout } from "../../hooks/useLogout";
 
 export default function SideNav() {
-  const logout = useLogout();
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    logout();
-  };
-
   return (
     <div className="p-[19px] font-jakarta flex flex-col justify-between h-full w-full">
       <div className="space-y-2">
@@ -29,7 +21,7 @@ export default function SideNav() {
         </NavLink>
 
         <NavLink
-          to="/chat-bot"
+          to="/"
           className={({ isActive }) =>
             `${
               isActive
@@ -49,10 +41,7 @@ export default function SideNav() {
           <p className="text-[16px] leading-5">Help</p>
         </NavLink>
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 p-4 w-full cursor-pointer"
-        >
+        <button className="flex items-center gap-3 p-4 w-full cursor-pointer">
           <img src={logoutIcon} alt="" />
           <p className="text-[16px] leading-5">Logout</p>
         </button>

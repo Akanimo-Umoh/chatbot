@@ -1,5 +1,5 @@
 import Nav from "./Nav";
-import close from "../../images/close.svg";
+import close from "../images/close.svg";
 import { Link } from "react-router-dom";
 
 export default function Header({ showBanner, setShowBanner }) {
