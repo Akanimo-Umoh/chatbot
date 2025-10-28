@@ -79,7 +79,7 @@ export default function Chat() {
         </div>
 
         <div className="w-full md:flex-1 overflow-hidden">
-          <div className="flex flex-1 flex-col w-full h-full border border-blue-400 overflow-hidden">
+          <div className="flex flex-col w-full h-full border border-green-400 overflow-hidden">
             <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden overflow-hidden">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />
