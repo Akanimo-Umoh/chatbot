@@ -30,7 +30,7 @@ export default function ChatInputCtn({ handleSubmit, text, setText }) {
   return (
     <>
       <div
-        className={`px-[23.5px] py-[31.09px] bg-[#101625] rounded-t-[25px] border-t border-t-white w-full min-h-[93px] md:relative md:h-[81px] md:rounded-full md:bg-white md:text-black md:p-0 md:mx-auto md:border-none md-m-0`}
+        className="px-[23.5px] py-[31.09px] bg-[#101625] rounded-t-[25px] border-t border-t-white w-full min-h-[93px] md:relative md:h-[81px] md:rounded-full md:bg-white md:text-black md:p-0 md:mx-auto md:border-none md-m-0 fixed bottom-0 left-0"
       >
         <form
           onSubmit={handleSubmit}
