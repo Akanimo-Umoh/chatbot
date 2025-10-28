@@ -60,7 +60,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg">
+    <div className="chatbg overflow-hidden">
       <div>
         <div className="md:hidden">
           <Header />
