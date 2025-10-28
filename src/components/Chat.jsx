@@ -60,7 +60,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg overflow-hidden">
+    <div className="chatbg">
       <div>
         <div className="md:hidden">
           <Header />
@@ -73,14 +73,14 @@ export default function Chat() {
       </div>
 
       {/* main container */}
-      <section className="flex md:pt-[88px] overflow-hidden">
+      <section className="pt-[51px] flex md:pt-[88px]">
         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
           <SideNav />
         </div>
 
-        <div className="pt-[51px] w-full max-h-[100dvh] min-h-[100dvh] md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] md:flex-1 overflow-hidden border-green-400 border">
-          <div className="flex flex-col w-full h-full overflow-hidden">
-            <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden overflow-hidden">
+        <div className="w-full max-h-[calc(100vh-51px)] min-h-[calc(100vh-51px)] md:max-h-[calc(100vh-88px)] md:min-h-[calc(100vh-88px)] md:flex-1">
+          <div className="flex flex-1 flex-col w-full h-full min-h-0">
+            <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />
               </div>
@@ -109,7 +109,7 @@ export default function Chat() {
               {/* {loading && (
                 <p className="text-gray-400 text-center">Loading...</p>
               )} */}
-              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
+              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent border">
                 {/* message container */}
                 {messages.length > 0 && (
                   <div className="flex-1 flex flex-col min-h-0 overflow-hidden justify-end">
