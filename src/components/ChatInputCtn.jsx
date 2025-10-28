@@ -44,7 +44,7 @@ export default function ChatInputCtn({ handleSubmit, text, setText }) {
             <div className="md:flex md:flex-1">
               <textarea
                 ref={inputRef}
-                placeholder="Ask me something..."
+                placeholder="Ask me something boy..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
