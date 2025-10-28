@@ -60,7 +60,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg overflow-hidden">
+    <div className="chatbg">
       <div>
         <div className="md:hidden">
           <Header />
@@ -73,13 +73,13 @@ export default function Chat() {
       </div>
 
       {/* main container */}
-      <section className="pt-[51px] flex md:pt-[88px] overflow-hidden">
+      <section className="pt-[51px] flex md:pt-[88px]">
         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
           <SideNav />
         </div>
 
-        <div className="w-full max-h-[calc(100vh-51px)] min-h-[calc(100vh-51px)] md:max-h-[calc(100vh-88px)] md:min-h-[calc(100vh-88px)] md:flex-1 overflow-hidden">
-          <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
+        <div className="w-full max-h-[calc(100vh-51px)] min-h-[calc(100vh-51px)] md:max-h-[calc(100vh-88px)] md:min-h-[calc(100vh-88px)] md:flex-1">
+          <div className="flex flex-1 flex-col w-full h-full min-h-0">
             <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />

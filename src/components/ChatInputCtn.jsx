@@ -29,7 +29,6 @@ export default function ChatInputCtn({ handleSubmit, text, setText }) {
 
   return (
     <>
-      {/* main input ctn */}
       <div
         className={`px-[23.5px] py-[31.09px] bg-[#101625] rounded-t-[25px] border-t border-t-white w-full min-h-[93px] md:relative md:h-[81px] md:rounded-full md:bg-white md:text-black md:p-0 md:mx-auto md:border-none md-m-0`}
       >
@@ -45,7 +44,7 @@ export default function ChatInputCtn({ handleSubmit, text, setText }) {
             <div className="md:flex md:flex-1">
               <textarea
                 ref={inputRef}
-                placeholder="Ask me anything..."
+                placeholder="Ask me something..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
