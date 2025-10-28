@@ -78,8 +78,8 @@ export default function Chat() {
           <SideNav />
         </div>
 
-        <div className="w-full max-h-[calc(100dvh-51px)] min-h-[calc(100dvh-51px)] md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] md:flex-1">
-          <div className="flex flex-1 flex-col w-full h-full border border-green-400">
+        <div className="w-full max-h-[calc(100dvh-51px)] min-h-[calc(100dvh-51px)] md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] md:flex-1 overflow-hidden">
+          <div className="flex flex-1 flex-col w-full h-full border border-yellow-400 overflow-hidden">
             <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />
