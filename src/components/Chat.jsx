@@ -61,7 +61,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg overflow-hidden h-dvh md:max-h-dvh md:min-h-dvh">
+    <div className="chatbg overflow-hidden min-h-dvh max-h-dvh md:max-h-dvh md:min-h-dvh">
       <div>
         <div className="md:hidden fixed top-0 left-0 z-50 w-full">
           <Nav />
