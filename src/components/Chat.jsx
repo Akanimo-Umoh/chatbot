@@ -172,235 +172,156 @@
 // }
 
 
-// ChatUI.jsx
-// Mobile-first Chat UI inspired by ChatGPT's interface.
-// React + Tailwind single-file component (default export).
-// How to use:
-// 1. Ensure Tailwind CSS is configured in your app.
-// 2. Place this file in your components folder and import <ChatUI /> into a page.
-// 3. Hook sendMessageToApi(message) to your chat backend (OpenAI or any websocket).
-// 4. This UI is purely client-side and does NOT send messages anywhere by default.
+import React, { useState, useRef, useEffect } from 'react';
+import { Send, Menu, X, Sparkles } from 'lucide-react';
 
-import React, { useEffect, useRef, useState } from "react";
-
-export default function Chat({ onSend /* optional: async (text) => response */ }) {
+export default function Chat() {
   const [messages, setMessages] = useState([
-    { id: 1, role: "assistant", text: "Hello! I’m your assistant. Ask me anything.", time: new Date().toISOString() },
+    { id: 1, text: "Hello! I'm your AI assistant. How can I help you today?", sender: 'bot', timestamp: new Date() }
   ]);
-  const [input, setInput] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const messagesEndRef = useRef(null);
-  const textareaRef = useRef(null);
 
-  useEffect(() => scrollToBottom(), [messages]);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-  function scrollToBottom() {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
-  function addMessage(role, text) {
-    setMessages((m) => [...m, { id: Date.now() + Math.random(), role, text, time: new Date().toISOString() }]);
-  }
+  const handleSend = () => {
+    if (inputValue.trim()) {
+      const newMessage = {
+        id: messages.length + 1,
+        text: inputValue,
+        sender: 'user',
+        timestamp: new Date()
+      };
+      setMessages([...messages, newMessage]);
+      setInputValue('');
 
-  async function handleSend(e) {
-    e?.preventDefault();
-    const text = input.trim();
-    if (!text) return;
-    setInput("");
-    addMessage("user", text);
-
-    // Start sending state
-    setIsSending(true);
-
-    try {
-      if (onSend) {
-        // Allow parent to handle network call and return assistant reply
-        const reply = await onSend(text);
-        if (reply) addMessage("assistant", String(reply));
-      } else {
-        // Placeholder simulated response (replace this with real API call)
-        await new Promise((r) => setTimeout(r, 700));
-        addMessage("assistant", `You said: ${text}`);
-      }
-    } catch (err) {
-      addMessage("assistant", "Error: could not fetch response. See console.");
-      console.error(err);
-    } finally {
-      setIsSending(false);
+      // Simulate bot response
+      setTimeout(() => {
+        const botResponse = {
+          id: messages.length + 2,
+          text: "Thanks for your message! This is a demo chatbot UI.",
+          sender: 'bot',
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botResponse]);
+      }, 1000);
     }
-  }
+  };
 
-  // Press Enter to send, Shift+Enter for newline
-  function handleKeyDown(e) {
-    if (e.key === "Enter" && !e.shiftKey) {
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
-  }
-
-  // Small helper: message bubble styles
-  function bubbleClasses(role) {
-    return role === "user"
-      ? "self-end bg-white/90 dark:bg-white/10 text-black dark:text-white shadow-sm rounded-2xl rounded-br-sm max-w-[85%]"
-      : "self-start bg-slate-100/80 dark:bg-slate-800/60 text-black dark:text-white rounded-2xl rounded-bl-sm max-w-[85%]";
-  }
+  };
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-900">
-      {/* Top bar */}
-      <header className="flex items-center justify-between px-3 py-3 border-b border-slate-200 dark:border-slate-800 bg-opacity-70 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <button
-            className="p-2 rounded-md hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
-            onClick={() => setShowSidebar((s) => !s)}
-            aria-label="Toggle menu"
-          >
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M3 12h18M3 18h18" />
-            </svg>
+    <div className="flex h-screen bg-gray-50">
+      {/* Sidebar */}
+      <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static`}>
+        <div className="flex flex-col h-full">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-6 h-6 text-indigo-600" />
+              <h1 className="text-xl font-bold text-gray-800">ChatBot</h1>
+            </div>
+            <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
+              <X className="w-6 h-6 text-gray-600" />
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            <button className="w-full px-4 py-3 mb-2 text-left text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors">
+              New Chat
+            </button>
+            <div className="mt-6">
+              <h3 className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Recent Chats</h3>
+              <div className="mt-2 space-y-1">
+                <div className="px-3 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
+                  Previous conversation
+                </div>
+                <div className="px-3 py-2 text-sm text-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                  Help with coding
+                </div>
+                <div className="px-3 py-2 text-sm text-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                  Recipe ideas
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center shadow-sm">
+          <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden mr-3">
+            <Menu className="w-6 h-6 text-gray-600" />
           </button>
-          <div className="flex flex-col leading-tight">
-            <span className="font-semibold text-sm">Chat</span>
-            <span className="text-xs text-slate-500 dark:text-slate-400">Mobile-first • Responsive</span>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold text-gray-800">AI Assistant</h2>
+              <p className="text-xs text-green-600">Online</p>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            className="hidden sm:inline-flex px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-sm"
-            onClick={() => {
-              addMessage("assistant", "Quick tip: connect `onSend` prop to your API to make this live.");
-            }}
-          >
-            Tips
-          </button>
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+          {messages.map((message) => (
+            <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
+                <div className={`rounded-2xl px-4 py-3 ${message.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-800 border border-gray-200'}`}>
+                  <p className="text-sm leading-relaxed">{message.text}</p>
+                </div>
+                <p className="text-xs text-gray-500 mt-1 px-2">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
 
-          <div className="flex items-center gap-2">
-            <button className="p-2 rounded-md hover:bg-slate-100/60 dark:hover:bg-slate-800/60" aria-label="New chat" onClick={() => setMessages([])}>
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M12 4v16M4 12h16" />
-              </svg>
+        {/* Input Area */}
+        <div className="bg-white border-t border-gray-200 px-4 py-4">
+          <div className="max-w-4xl mx-auto flex items-end space-x-3">
+            <div className="flex-1 bg-gray-100 rounded-2xl border border-gray-200 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition-all">
+              <textarea
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type your message..."
+                rows="1"
+                className="w-full px-4 py-3 bg-transparent text-sm text-gray-800 placeholder-gray-500 resize-none focus:outline-none"
+                style={{ maxHeight: '120px' }}
+              />
+            </div>
+            <button
+              onClick={handleSend}
+              disabled={!inputValue.trim()}
+              className="flex-shrink-0 w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-lg"
+            >
+              <Send className="w-5 h-5" />
             </button>
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="flex-1 overflow-hidden flex">
-        {/* Sidebar (slide over on mobile) */}
-        <aside
-          className={`absolute top-16 left-0 z-30 h-[calc(100%-64px)] w-72 transform transition-transform duration-200 bg-white/70 dark:bg-slate-900/80 border-r border-slate-200 dark:border-slate-800 backdrop-blur-lg ${
-            showSidebar ? "translate-x-0" : "-translate-x-full sm:translate-x-0"
-          }`}
-        >
-          <div className="p-4">
-            <h3 className="text-sm font-semibold mb-3">Chats</h3>
-            <div className="flex flex-col gap-2">
-              <button
-                className="text-left p-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
-                onClick={() => {
-                  setMessages([
-                    { id: Date.now(), role: "assistant", text: "Hello — new chat started!", time: new Date().toISOString() },
-                  ]);
-                  setShowSidebar(false);
-                }}
-              >
-                + Start new chat
-              </button>
-              <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">Conversations saved locally in this session.</div>
-            </div>
-          </div>
-        </aside>
-
-        {/* Chat pane */}
-        <section className="flex-1 flex flex-col p-3 sm:p-6">
-          <div className="flex-1 overflow-auto pb-6">
-            <div className="flex flex-col gap-3">
-              {messages.length === 0 && (
-                <div className="mt-6 text-center text-slate-500">No messages yet — say hi 👋</div>
-              )}
-
-              {messages.map((m) => (
-                <div key={m.id} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`p-3 ${bubbleClasses(m.role)} break-words`}> 
-                    <div className="whitespace-pre-wrap text-sm">{m.text}</div>
-                    <div className="mt-1 text-[10px] opacity-60 text-slate-500 text-right">{new Date(m.time).toLocaleTimeString()}</div>
-                  </div>
-                </div>
-              ))}
-
-              {/* Typing indicator */}
-              {isSending && (
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xs">AI</div>
-                  <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded-2xl">
-                    <div className="flex items-end gap-1">
-                      <div className="animate-bounce h-2 w-2 rounded-full bg-slate-600 dark:bg-white"></div>
-                      <div className="animate-bounce delay-75 h-2 w-2 rounded-full bg-slate-600 dark:bg-white"></div>
-                      <div className="animate-bounce delay-150 h-2 w-2 rounded-full bg-slate-600 dark:bg-white"></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div ref={messagesEndRef} />
-            </div>
-          </div>
-
-          {/* Input area */}
-          <form onSubmit={handleSend} className="mt-2">
-            <div className="flex items-end gap-2">
-              <div className="flex-1 bg-transparent">
-                <textarea
-                  ref={textareaRef}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Write a message... (Enter to send, Shift+Enter for newline)"
-                  rows={1}
-                  className="w-full resize-none min-h-[44px] max-h-48 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/60 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-slate-700 text-sm"
-                />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    // Example quick action: insert prompt
-                    setInput((v) => (v ? v + "\n" : "Write a short list of 3 improvements for my website"));
-                    textareaRef.current?.focus();
-                  }}
-                  className="hidden sm:inline-flex px-3 py-2 border rounded-md text-sm"
-                >
-                  Prompt
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={isSending}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black shadow hover:opacity-95 disabled:opacity-50"
-                >
-                  {isSending ? (
-                    <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <circle cx="12" cy="12" r="10" strokeWidth="2" strokeOpacity="0.2"></circle>
-                      <path d="M22 12a10 10 0 00-10-10" strokeWidth="2" strokeLinecap="round"></path>
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13" />
-                      <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M22 2l-7 20-4-9-9-4 20-7z" />
-                    </svg>
-                  )}
-                  <span className="hidden sm:inline">Send</span>
-                </button>
-              </div>
-            </div>
-          </form>
-        </section>
-      </main>
-
-      {/* Footer small */}
-      <footer className="text-center text-xs text-slate-400 p-2">Built with ❤️ • Mobile-first chat UI</footer>
+      {/* Overlay for mobile sidebar */}
+      {isSidebarOpen && (
+        <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" />
+      )}
     </div>
   );
 }
