@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Header({ showBanner, setShowBanner }) {
   return (
     <div>
-      <header className="fixed top-0 z-50 w-full bg-(--background-color)">
+      <header className="z-50 w-full bg-(--background-color)">
         {/* <!-- banner --> */}
         {showBanner ? (
           <div

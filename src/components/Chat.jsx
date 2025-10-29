@@ -7,6 +7,7 @@ import Chats from "./Chats";
 import ChatInputCtn from "./ChatInputCtn";
 import SideNav from "./SideNav";
 import ChatHero from "./ChatHero";
+import Nav from "./Nav";
 
 export default function Chat() {
   const [text, setText] = useState("");
@@ -60,10 +61,10 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg">
+    <div className="chatbg max-h-[100dvh] min-h-[100dvh] h-dvh overflow-hidden md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] pt-[51px] md:pt-[88px]">
       <div>
         <div className="md:hidden">
-          <Header />
+          <Nav />
         </div>
 
         {/* custom header for the chatbot */}
@@ -73,12 +74,12 @@ export default function Chat() {
       </div>
 
       {/* main container */}
-      <section className="pt-[51px] flex md:pt-[88px]">
+      <section className="flex h-full">
         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
           <SideNav />
         </div>
 
-        <div className="w-full max-h-[calc(100dvh-51px)] min-h-[calc(100dvh-51px)] md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] md:flex-1 border border-green-400">
+        <div className="w-full md:flex-1">
           <div className="flex flex-1 flex-col w-full h-full min-h-0">
             <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden">
               <div className="cursor-pointer">
@@ -109,7 +110,7 @@ export default function Chat() {
               {/* {loading && (
                 <p className="text-gray-400 text-center">Loading...</p>
               )} */}
-              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent">
+              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
                 {/* message container */}
                 {messages.length > 0 && (
                   <div className="flex-1 flex flex-col min-h-0 overflow-hidden justify-end">
