@@ -60,38 +60,8 @@ export default function Chat() {
     { text: "How can I help you today?", from: "user" },
   ]);
 
-  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-
-  useEffect(() => {
-    // Set initial viewport height
-    setViewportHeight(window.innerHeight);
-
-    // Prevent viewport resize on keyboard open
-    const metaViewport = document.querySelector('meta[name="viewport"]');
-    if (metaViewport) {
-      metaViewport.setAttribute(
-        "content",
-        "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover"
-      );
-    }
-
-    return () => {
-      if (metaViewport) {
-        metaViewport.setAttribute(
-          "content",
-          "width=device-width, initial-scale=1, viewport-fit=cover"
-        );
-      }
-    };
-  }, []);
-
   return (
-    <div
-      className="chatbg overflow-hidden md:max-h-dvh md:min-h-dvh"
-      style={{
-        height: window.innerWidth < 768 ? `${viewportHeight}px` : "100dvh",
-      }}
-    >
+    <div className="chatbg overflow-hidden h-dvh md:max-h-dvh md:min-h-dvh">
       <div>
         <div className="md:hidden fixed top-0 left-0 z-50 w-full">
           <Nav />
