@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Chat from "./components/Chat";
+import ChatbotUI from "./components/Chat";
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Chat />} />
+          <Route path="/" element={<ChatbotUI />} />
         </Routes>
       </Router>
     </>

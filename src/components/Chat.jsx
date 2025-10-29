@@ -171,20 +171,24 @@
 //   );
 // }
 
+import React, { useState, useRef, useEffect } from "react";
+import { Send, Menu, X, Sparkles } from "lucide-react";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Send, Menu, X, Sparkles } from 'lucide-react';
-
-export default function Chat() {
+export default function ChatbotUI() {
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hello! I'm your AI assistant. How can I help you today?", sender: 'bot', timestamp: new Date() }
+    {
+      id: 1,
+      text: "Hello! I'm your AI assistant. How can I help you today?",
+      sender: "bot",
+      timestamp: new Date(),
+    },
   ]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -192,17 +196,32 @@ export default function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    // Prevent body scroll on mobile
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.height = '100%';
-    
+    // Prevent body scroll and handle mobile viewport
+    const preventScroll = (e) => {
+      if (
+        !e.target.closest("textarea") &&
+        !e.target.closest("[data-scrollable]")
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.height = "100dvh";
+    document.body.style.top = "0";
+
+    // Prevent pull-to-refresh and overscroll
+    document.addEventListener("touchmove", preventScroll, { passive: false });
+
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.top = "";
+      document.removeEventListener("touchmove", preventScroll);
     };
   }, []);
 
@@ -211,52 +230,69 @@ export default function Chat() {
       const newMessage = {
         id: messages.length + 1,
         text: inputValue,
-        sender: 'user',
-        timestamp: new Date()
+        sender: "user",
+        timestamp: new Date(),
       };
       setMessages([...messages, newMessage]);
-      setInputValue('');
+      setInputValue("");
 
       // Simulate bot response
       setTimeout(() => {
         const botResponse = {
           id: messages.length + 2,
           text: "Thanks for your message! This is a demo chatbot UI.",
-          sender: 'bot',
-          timestamp: new Date()
+          sender: "bot",
+          timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botResponse]);
+        setMessages((prev) => [...prev, botResponse]);
       }, 1000);
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
 
   return (
-    <div className="fixed inset-0 flex bg-gray-50 overflow-hidden">
+    <div
+      className="fixed inset-0 flex bg-gray-50"
+      style={{ height: "100dvh", touchAction: "none" }}
+    >
       {/* Sidebar */}
-      <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static overflow-hidden`}>
+      <div
+        className={`${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static`}
+        style={{ height: "100dvh" }}
+      >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center space-x-2">
               <Sparkles className="w-6 h-6 text-indigo-600" />
               <h1 className="text-xl font-bold text-gray-800">ChatBot</h1>
             </div>
-            <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="lg:hidden"
+            >
               <X className="w-6 h-6 text-gray-600" />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-4">
+          <div
+            className="flex-1 overflow-y-auto p-4"
+            data-scrollable
+            style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
+          >
             <button className="w-full px-4 py-3 mb-2 text-left text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors">
               New Chat
             </button>
             <div className="mt-6">
-              <h3 className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Recent Chats</h3>
+              <h3 className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Recent Chats
+              </h3>
               <div className="mt-2 space-y-1">
                 <div className="px-3 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
                   Previous conversation
@@ -274,10 +310,13 @@ export default function Chat() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center shadow-sm flex-shrink-0">
-          <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden mr-3">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="lg:hidden mr-3"
+          >
             <Menu className="w-6 h-6 text-gray-600" />
           </button>
           <div className="flex items-center space-x-3">
@@ -285,22 +324,50 @@ export default function Chat() {
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-gray-800">AI Assistant</h2>
+              <h2 className="text-sm font-semibold text-gray-800">
+                AI Assistant
+              </h2>
               <p className="text-xs text-green-600">Online</p>
             </div>
           </div>
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div
+          className="flex-1 overflow-y-auto px-4 py-6 space-y-4"
+          data-scrollable
+          style={{
+            WebkitOverflowScrolling: "touch",
+            touchAction: "pan-y",
+            overscrollBehavior: "contain",
+          }}
+        >
           {messages.map((message) => (
-            <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
-                <div className={`rounded-2xl px-4 py-3 ${message.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-800 border border-gray-200'}`}>
+            <div
+              key={message.id}
+              className={`flex ${
+                message.sender === "user" ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl ${
+                  message.sender === "user" ? "order-2" : "order-1"
+                }`}
+              >
+                <div
+                  className={`rounded-2xl px-4 py-3 ${
+                    message.sender === "user"
+                      ? "bg-indigo-600 text-white"
+                      : "bg-white text-gray-800 border border-gray-200"
+                  }`}
+                >
                   <p className="text-sm leading-relaxed">{message.text}</p>
                 </div>
                 <p className="text-xs text-gray-500 mt-1 px-2">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {message.timestamp.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               </div>
             </div>
@@ -309,7 +376,10 @@ export default function Chat() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white border-t border-gray-200 px-4 py-4 flex-shrink-0">
+        <div
+          className="bg-white border-t border-gray-200 px-4 py-4 flex-shrink-0"
+          style={{ touchAction: "none" }}
+        >
           <div className="max-w-4xl mx-auto flex items-end space-x-3">
             <div className="flex-1 bg-gray-100 rounded-2xl border border-gray-200 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition-all">
               <textarea
@@ -319,7 +389,7 @@ export default function Chat() {
                 placeholder="Type your message..."
                 rows="1"
                 className="w-full px-4 py-3 bg-transparent text-sm text-gray-800 placeholder-gray-500 resize-none focus:outline-none"
-                style={{ maxHeight: '120px' }}
+                style={{ maxHeight: "120px", touchAction: "manipulation" }}
               />
             </div>
             <button
@@ -335,7 +405,10 @@ export default function Chat() {
 
       {/* Overlay for mobile sidebar */}
       {isSidebarOpen && (
-        <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" />
+        <div
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+        />
       )}
     </div>
   );
