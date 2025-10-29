@@ -171,6 +171,7 @@
 //   );
 // }
 
+
 // ChatUI.jsx
 // Mobile-first Chat UI inspired by ChatGPT's interface.
 // React + Tailwind single-file component (default export).
@@ -182,16 +183,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-export default function Chat({
-  onSend /* optional: async (text) => response */,
-}) {
+export default function Chat({ onSend /* optional: async (text) => response */ }) {
   const [messages, setMessages] = useState([
-    {
-      id: 1,
-      role: "assistant",
-      text: "Hello! I’m your assistant. Ask me anything.",
-      time: new Date().toISOString(),
-    },
+    { id: 1, role: "assistant", text: "Hello! I’m your assistant. Ask me anything.", time: new Date().toISOString() },
   ]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -202,22 +196,11 @@ export default function Chat({
   useEffect(() => scrollToBottom(), [messages]);
 
   function scrollToBottom() {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }
 
   function addMessage(role, text) {
-    setMessages((m) => [
-      ...m,
-      {
-        id: Date.now() + Math.random(),
-        role,
-        text,
-        time: new Date().toISOString(),
-      },
-    ]);
+    setMessages((m) => [...m, { id: Date.now() + Math.random(), role, text, time: new Date().toISOString() }]);
   }
 
   async function handleSend(e) {
@@ -273,25 +256,13 @@ export default function Chat({
             onClick={() => setShowSidebar((s) => !s)}
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 6h18M3 12h18M3 18h18"
-              />
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M3 12h18M3 18h18" />
             </svg>
           </button>
           <div className="flex flex-col leading-tight">
             <span className="font-semibold text-sm">Chat</span>
-            <span className="text-xs text-slate-500 dark:text-slate-400">
-              Mobile-first • Responsive
-            </span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Mobile-first • Responsive</span>
           </div>
         </div>
 
@@ -299,33 +270,16 @@ export default function Chat({
           <button
             className="hidden sm:inline-flex px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 text-sm"
             onClick={() => {
-              addMessage(
-                "assistant",
-                "Quick tip: connect `onSend` prop to your API to make this live."
-              );
+              addMessage("assistant", "Quick tip: connect `onSend` prop to your API to make this live.");
             }}
           >
             Tips
           </button>
 
           <div className="flex items-center gap-2">
-            <button
-              className="p-2 rounded-md hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
-              aria-label="New chat"
-              onClick={() => setMessages([])}
-            >
-              <svg
-                className="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4v16M4 12h16"
-                />
+            <button className="p-2 rounded-md hover:bg-slate-100/60 dark:hover:bg-slate-800/60" aria-label="New chat" onClick={() => setMessages([])}>
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M12 4v16M4 12h16" />
               </svg>
             </button>
           </div>
@@ -346,21 +300,14 @@ export default function Chat({
                 className="text-left p-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
                 onClick={() => {
                   setMessages([
-                    {
-                      id: Date.now(),
-                      role: "assistant",
-                      text: "Hello — new chat started!",
-                      time: new Date().toISOString(),
-                    },
+                    { id: Date.now(), role: "assistant", text: "Hello — new chat started!", time: new Date().toISOString() },
                   ]);
                   setShowSidebar(false);
                 }}
               >
                 + Start new chat
               </button>
-              <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-                Conversations saved locally in this session.
-              </div>
+              <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">Conversations saved locally in this session.</div>
             </div>
           </div>
         </aside>
@@ -370,23 +317,14 @@ export default function Chat({
           <div className="flex-1 overflow-auto pb-6">
             <div className="flex flex-col gap-3">
               {messages.length === 0 && (
-                <div className="mt-6 text-center text-slate-500">
-                  No messages yet — say hi 👋
-                </div>
+                <div className="mt-6 text-center text-slate-500">No messages yet — say hi 👋</div>
               )}
 
               {messages.map((m) => (
-                <div
-                  key={m.id}
-                  className={`flex ${
-                    m.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div className={`p-3 ${bubbleClasses(m.role)} break-words`}>
+                <div key={m.id} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`p-3 ${bubbleClasses(m.role)} break-words`}> 
                     <div className="whitespace-pre-wrap text-sm">{m.text}</div>
-                    <div className="mt-1 text-[10px] opacity-60 text-slate-500 text-right">
-                      {new Date(m.time).toLocaleTimeString()}
-                    </div>
+                    <div className="mt-1 text-[10px] opacity-60 text-slate-500 text-right">{new Date(m.time).toLocaleTimeString()}</div>
                   </div>
                 </div>
               ))}
@@ -394,9 +332,7 @@ export default function Chat({
               {/* Typing indicator */}
               {isSending && (
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xs">
-                    AI
-                  </div>
+                  <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-xs">AI</div>
                   <div className="bg-slate-100 dark:bg-slate-800 p-2 rounded-2xl">
                     <div className="flex items-end gap-1">
                       <div className="animate-bounce h-2 w-2 rounded-full bg-slate-600 dark:bg-white"></div>
@@ -431,11 +367,7 @@ export default function Chat({
                   type="button"
                   onClick={() => {
                     // Example quick action: insert prompt
-                    setInput((v) =>
-                      v
-                        ? v + "\n"
-                        : "Write a short list of 3 improvements for my website"
-                    );
+                    setInput((v) => (v ? v + "\n" : "Write a short list of 3 improvements for my website"));
                     textareaRef.current?.focus();
                   }}
                   className="hidden sm:inline-flex px-3 py-2 border rounded-md text-sm"
@@ -449,44 +381,14 @@ export default function Chat({
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black shadow hover:opacity-95 disabled:opacity-50"
                 >
                   {isSending ? (
-                    <svg
-                      className="w-4 h-4 animate-spin"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        strokeWidth="2"
-                        strokeOpacity="0.2"
-                      ></circle>
-                      <path
-                        d="M22 12a10 10 0 00-10-10"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      ></path>
+                    <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <circle cx="12" cy="12" r="10" strokeWidth="2" strokeOpacity="0.2"></circle>
+                      <path d="M22 12a10 10 0 00-10-10" strokeWidth="2" strokeLinecap="round"></path>
                     </svg>
                   ) : (
-                    <svg
-                      className="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M22 2L11 13"
-                      />
-                      <path
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M22 2l-7 20-4-9-9-4 20-7z"
-                      />
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13" />
+                      <path strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M22 2l-7 20-4-9-9-4 20-7z" />
                     </svg>
                   )}
                   <span className="hidden sm:inline">Send</span>
@@ -498,9 +400,7 @@ export default function Chat({
       </main>
 
       {/* Footer small */}
-      <footer className="text-center text-xs text-slate-400 p-2">
-        Built with ❤️ • Mobile-first chat UI
-      </footer>
+      <footer className="text-center text-xs text-slate-400 p-2">Built with ❤️ • Mobile-first chat UI</footer>
     </div>
   );
 }
