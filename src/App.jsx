@@ -7,8 +7,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<ChatbotUI />} />
-          {/* <Route path="/" element={<Chat />} /> */}
+          {/* <Route path="/" element={<ChatbotUI />} /> */}
+          <Route path="/" element={<Chat />} />
         </Routes>
       </Router>
     </>
