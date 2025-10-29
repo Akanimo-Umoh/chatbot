@@ -61,7 +61,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg max-h-[100dvh] min-h-[100dvh] h-dvh overflow-hidden md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] pt-[51px] md:pt-[88px]">
+    <div className="chatbg fixed inset-0 overflow-hidden max-h-[100dvh] min-h-[100dvh] h-dvh md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] pt-[51px] md:pt-[88px] border">
       <div>
         <div className="md:hidden">
           <Nav />
@@ -79,8 +79,8 @@ export default function Chat() {
           <SideNav />
         </div>
 
-        <div className="w-full md:flex-1 flex flex-col h-full">
-          <div className="flex flex-1 flex-col w-full h-full min-h-0">
+        <div className="w-full md:flex-1 flex flex-col h-full overflow-hidden">
+          <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
             <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />
@@ -93,7 +93,7 @@ export default function Chat() {
               </Link>
             </div>
 
-            <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px]">
+            <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px] shrink-0">
               <p className="text-[20px] font-medium leading-10 font-jakarta">
                 Roadmap Journey
               </p>
@@ -106,7 +106,7 @@ export default function Chat() {
             )}
 
             {/* ctn */}
-            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center">
+            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-0">
               {/* {loading && (
                 <p className="text-gray-400 text-center">Loading...</p>
               )} */}
@@ -128,7 +128,7 @@ export default function Chat() {
                 </div>
 
                 {messages.length === 0 && (
-                  <div className="hidden md:flex items-center justify-center w-full text-center">
+                  <div className="hidden md:flex items-center justify-center w-full text-center shrink-0">
                     <p>
                       Please be assured that your responses and information are
                       all safe with us
