@@ -119,7 +119,7 @@ export default function Chat() {
                 )}
 
                 {/* input container */}
-                <div className="">
+                <div className="w-full z-99999 fixed bottom-0">
                   <ChatInputCtn
                     // handleSubmit={handleSubmit}
                     text={text}
