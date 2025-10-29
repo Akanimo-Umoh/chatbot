@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomNav from "./CustomNav";
 import Header from "./Header";
 import backbutton from "../images/backbutton.svg";
@@ -12,7 +12,7 @@ import Nav from "./Nav";
 export default function Chat() {
   const [text, setText] = useState("");
   // const [loading, setLoading] = useState(true);
-  
+
   const [messages, setMessages] = useState([
     { text: "Hello!", from: "bot" },
     { text: "How can I help you today?", from: "bot" },
@@ -60,10 +60,40 @@ export default function Chat() {
     { text: "How can I help you today?", from: "user" },
   ]);
 
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    // Set initial viewport height
+    setViewportHeight(window.innerHeight);
+
+    // Prevent viewport resize on keyboard open
+    const metaViewport = document.querySelector('meta[name="viewport"]');
+    if (metaViewport) {
+      metaViewport.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover"
+      );
+    }
+
+    return () => {
+      if (metaViewport) {
+        metaViewport.setAttribute(
+          "content",
+          "width=device-width, initial-scale=1, viewport-fit=cover"
+        );
+      }
+    };
+  }, []);
+
   return (
-    <div className="chatbg fixed inset-0 overflow-hidden max-h-[100dvh] min-h-[100dvh] h-dvh md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)] pt-[51px] md:pt-[88px] border">
+    <div
+      className="chatbg overflow-hidden md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)]"
+      style={{
+        height: window.innerWidth < 768 ? `${viewportHeight}px` : "100dvh",
+      }}
+    >
       <div>
-        <div className="md:hidden">
+        <div className="md:hidden fixed top-0 left-0 z-50 w-full">
           <Nav />
         </div>
 
@@ -74,7 +104,7 @@ export default function Chat() {
       </div>
 
       {/* main container */}
-      <section className="flex h-full">
+      <section className="flex h-full pt-[51px]">
         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
           <SideNav />
         </div>
@@ -107,9 +137,6 @@ export default function Chat() {
 
             {/* ctn */}
             <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-0">
-              {/* {loading && (
-                <p className="text-gray-400 text-center">Loading...</p>
-              )} */}
               <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
                 {/* message container */}
                 {messages.length > 0 && (
