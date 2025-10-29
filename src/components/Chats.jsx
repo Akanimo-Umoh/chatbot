@@ -31,7 +31,7 @@ export default function Chats({ messages }) {
         <div className="w-[50px] border-2 border-white flex mt-[11px] mb-[27px] mx-auto md:hidden"></div>
 
         {/* messages */}
-        <div className="overflow-y-auto flex-1 justify-end min-h-0 px-2 pb-34 pt-2.5 customScroll">
+        <div className="overflow-y-auto flex-1 justify-end min-h-0 px-2 pb-0 pt-2.5 customScroll">
           {messages.map((msg, index) => (
             <div
               key={index}

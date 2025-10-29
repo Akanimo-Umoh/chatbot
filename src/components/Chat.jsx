@@ -87,7 +87,7 @@ export default function Chat() {
 
   return (
     <div
-      className="chatbg overflow-hidden md:max-h-[calc(100dvh-88px)] md:min-h-[calc(100dvh-88px)]"
+      className="chatbg overflow-hidden md:max-h-dvh md:min-h-dvh"
       style={{
         height: window.innerWidth < 768 ? `${viewportHeight}px` : "100dvh",
       }}
@@ -104,7 +104,7 @@ export default function Chat() {
       </div>
 
       {/* main container */}
-      <section className="flex h-full pt-[51px]">
+      <section className="flex h-full pt-[51px] md:pt-[88px]">
         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
           <SideNav />
         </div>
@@ -146,7 +146,7 @@ export default function Chat() {
                 )}
 
                 {/* input container */}
-                <div className="w-full shrink-0 fixed bottom-0 border">
+                <div className="w-full shrink-0">
                   <ChatInputCtn
                     // handleSubmit={handleSubmit}
                     text={text}
