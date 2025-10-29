@@ -191,6 +191,21 @@ export default function Chat() {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    // Prevent body scroll on mobile
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.height = '100%';
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    };
+  }, []);
+
   const handleSend = () => {
     if (inputValue.trim()) {
       const newMessage = {
@@ -223,11 +238,11 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="fixed inset-0 flex bg-gray-50 overflow-hidden">
       {/* Sidebar */}
-      <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static`}>
+      <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static overflow-hidden`}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center space-x-2">
               <Sparkles className="w-6 h-6 text-indigo-600" />
               <h1 className="text-xl font-bold text-gray-800">ChatBot</h1>
@@ -259,9 +274,9 @@ export default function Chat() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center shadow-sm">
+        <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center shadow-sm flex-shrink-0">
           <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden mr-3">
             <Menu className="w-6 h-6 text-gray-600" />
           </button>
@@ -277,7 +292,7 @@ export default function Chat() {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4" style={{ WebkitOverflowScrolling: 'touch' }}>
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl ${message.sender === 'user' ? 'order-2' : 'order-1'}`}>
@@ -294,7 +309,7 @@ export default function Chat() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white border-t border-gray-200 px-4 py-4">
+        <div className="bg-white border-t border-gray-200 px-4 py-4 flex-shrink-0">
           <div className="max-w-4xl mx-auto flex items-end space-x-3">
             <div className="flex-1 bg-gray-100 rounded-2xl border border-gray-200 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 transition-all">
               <textarea
