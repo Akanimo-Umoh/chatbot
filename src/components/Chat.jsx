@@ -79,9 +79,9 @@ export default function Chat() {
           <SideNav />
         </div>
 
-        <div className="w-full md:flex-1">
+        <div className="w-full md:flex-1 flex flex-col h-full">
           <div className="flex flex-1 flex-col w-full h-full min-h-0">
-            <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden">
+            <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />
               </div>
@@ -119,7 +119,7 @@ export default function Chat() {
                 )}
 
                 {/* input container */}
-                <div className="w-full z-99999 fixed bottom-0">
+                <div className="w-full z-99999 fixed bottom-0 shrink-0">
                   <ChatInputCtn
                     // handleSubmit={handleSubmit}
                     text={text}
