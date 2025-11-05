@@ -61,10 +61,22 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg overflow-hidden min-h-dvh max-h-dvh md:max-h-dvh md:min-h-dvh">
-      <div>
-        <div className="md:hidden fixed top-0 left-0 z-50 w-full">
+    <div className="chatbg overflow-hidden">
+      <div className="">
+        <div className="md:hidden fixed top-0 left-0 z-50 w-full bg-[#111827]">
           <Nav />
+
+          <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
+            <div className="cursor-pointer">
+              <img src={backbutton} alt="" />
+            </div>
+
+            <Link to="/explore">
+              <p className="font-figtree font-medium text-[13px] text-(--gray-500)">
+                Skip for Now
+              </p>
+            </Link>
+          </div>
         </div>
 
         {/* custom header for the chatbot */}
@@ -81,18 +93,6 @@ export default function Chat() {
 
         <div className="w-full md:flex-1 flex flex-col h-full overflow-hidden">
           <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
-            <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
-              <div className="cursor-pointer">
-                <img src={backbutton} alt="" />
-              </div>
-
-              <Link to="/explore">
-                <p className="font-figtree font-medium text-[13px] text-(--gray-500)">
-                  Skip for Now
-                </p>
-              </Link>
-            </div>
-
             <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px] shrink-0">
               <p className="text-[20px] font-medium leading-10 font-jakarta">
                 Roadmap Journey
@@ -106,7 +106,7 @@ export default function Chat() {
             )}
 
             {/* ctn */}
-            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-0">
+            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-[calc(100dvh-111px)] max-h-[calc(100dvh-111px)] md:max-h-dvh md:min-h-dvh mt-[60px] ">
               <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
                 {/* message container */}
                 {messages.length > 0 && (
