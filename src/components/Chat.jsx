@@ -106,7 +106,7 @@ export default function Chat() {
             )}
 
             {/* ctn */}
-            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-[calc(100dvh-111px)] max-h-[calc(100dvh-111px)] md:max-h-dvh md:min-h-dvh mt-[60px] ">
+            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-[calc(100dvh-111px)] max-h-[calc(100dvh-111px)] md:max-h-dvh md:min-h-dvh mt-[111px]">
               <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
                 {/* message container */}
                 {messages.length > 0 && (
