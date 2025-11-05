@@ -27,6 +27,12 @@ export default function ChatInputCtn({ handleSubmit, text, setText }) {
     }
   }, [text]);
 
+  const handleFocus = (e) => {
+    setTimeout(() => {
+      e.target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 300); // Delay to wait for keyboard animation
+  };
+
   return (
     <>
       <div className="px-[23.5px] py-[31.09px] bg-[#101625] rounded-t-[25px] border-t border-t-white w-full min-h-[93px] md:relative md:h-[81px] md:rounded-full md:bg-white md:text-black md:p-0 md:mx-auto md:border-none md-m-0">
@@ -44,6 +50,7 @@ export default function ChatInputCtn({ handleSubmit, text, setText }) {
                 ref={inputRef}
                 placeholder="Ask me something..."
                 value={text}
+                onFocus={handleFocus}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 className="text-[12.5px] leading-[18.75px] tracking-[-0.25px] font-jakarta font-medium w-full outline-none resize-none bg-transparent transition-all duration-200 md:tracking-[-0.112px] md:leading-[22px] md:text-[16px] md:text-[#1E293B] customScroll"

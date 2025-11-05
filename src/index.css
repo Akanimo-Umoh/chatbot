@@ -162,6 +162,14 @@
   }
 }
 
+/* Add to your global CSS */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific */
+  .chat-container {
+    height: -webkit-fill-available;
+  }
+}
+
 .font-general {
   font-family: var(--font-GeneralSans);
 }

@@ -1,145 +1,145 @@
-import React, { useEffect, useState } from "react";
-import CustomNav from "./CustomNav";
-import Header from "./Header";
-import backbutton from "../images/backbutton.svg";
-import { Link } from "react-router-dom";
-import Chats from "./Chats";
-import ChatInputCtn from "./ChatInputCtn";
-import SideNav from "./SideNav";
-import ChatHero from "./ChatHero";
-import Nav from "./Nav";
+// import React, { useEffect, useState } from "react";
+// import CustomNav from "./CustomNav";
+// import Header from "./Header";
+// import backbutton from "../images/backbutton.svg";
+// import { Link } from "react-router-dom";
+// import Chats from "./Chats";
+// import ChatInputCtn from "./ChatInputCtn";
+// import SideNav from "./SideNav";
+// import ChatHero from "./ChatHero";
+// import Nav from "./Nav";
 
-export default function Chat() {
-  const [text, setText] = useState("");
-  // const [loading, setLoading] = useState(true);
+// export default function Chat() {
+//   const [text, setText] = useState("");
+//   // const [loading, setLoading] = useState(true);
 
-  const [messages, setMessages] = useState([
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-  ]);
+//   const [messages, setMessages] = useState([
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//     { text: "Hello!", from: "bot" },
+//     { text: "How can I help you today?", from: "bot" },
+//     { text: "Hello!", from: "user" },
+//     { text: "How can I help you today?", from: "user" },
+//   ]);
 
-  return (
-    <div className="chatbg overflow-hidden">
-      <div className="">
-        <div className="md:hidden fixed top-0 left-0 z-50 w-full bg-[#111827]">
-          <Nav />
+//   return (
+//     <div className="chatbg overflow-hidden">
+//       <div className="">
+//         <div className="md:hidden fixed top-0 left-0 z-50 w-full bg-[#111827]">
+//           <Nav />
 
-          <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
-            <div className="cursor-pointer">
-              <img src={backbutton} alt="" />
-            </div>
+//           <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
+//             <div className="cursor-pointer">
+//               <img src={backbutton} alt="" />
+//             </div>
 
-            <Link to="/explore">
-              <p className="font-figtree font-medium text-[13px] text-(--gray-500)">
-                Skip for Now
-              </p>
-            </Link>
-          </div>
-        </div>
+//             <Link to="/explore">
+//               <p className="font-figtree font-medium text-[13px] text-(--gray-500)">
+//                 Skip for Now
+//               </p>
+//             </Link>
+//           </div>
+//         </div>
 
-        {/* custom header for the chatbot */}
-        <div className="hidden md:block fixed top-0 w-full z-900">
-          <CustomNav />
-        </div>
-      </div>
+//         {/* custom header for the chatbot */}
+//         <div className="hidden md:block fixed top-0 w-full z-900">
+//           <CustomNav />
+//         </div>
+//       </div>
 
-      {/* main container */}
-      <section className="flex h-full pt-[51px] md:pt-[88px]">
-        <div className="hidden md:flex bg-[#1E293B] w-[248px]">
-          <SideNav />
-        </div>
+//       {/* main container */}
+//       <section className="flex h-full pt-[51px] md:pt-[88px]">
+//         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
+//           <SideNav />
+//         </div>
 
-        <div className="w-full md:flex-1 flex flex-col h-full overflow-hidden">
-          <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
-            <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px] shrink-0">
-              <p className="text-[20px] font-medium leading-10 font-jakarta">
-                Roadmap Journey
-              </p>
-            </div>
+//         <div className="w-full md:flex-1 flex flex-col h-full overflow-hidden">
+//           <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
+//             <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px] shrink-0">
+//               <p className="text-[20px] font-medium leading-10 font-jakarta">
+//                 Roadmap Journey
+//               </p>
+//             </div>
 
-            {messages.length === 0 && (
-              <div className="hidden md:flex items-center justify-center">
-                <ChatHero />
-              </div>
-            )}
+//             {messages.length === 0 && (
+//               <div className="hidden md:flex items-center justify-center">
+//                 <ChatHero />
+//               </div>
+//             )}
 
-            {/* ctn */}
-            <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-[calc(100dvh-111px)] max-h-[calc(100dvh-111px)] md:max-h-dvh md:min-h-dvh mt-[111px]">
-              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
-                {/* message container */}
-                {messages.length > 0 && (
-                  <div className="flex-1 flex flex-col min-h-0 overflow-hidden justify-end">
-                    <Chats messages={messages} />
-                  </div>
-                )}
+//             {/* ctn */}
+//             <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-[calc(100dvh-111px)] max-h-[calc(100dvh-111px)] md:max-h-dvh md:min-h-dvh mt-[111px]">
+//               <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
+//                 {/* message container */}
+//                 {messages.length > 0 && (
+//                   <div className="flex-1 flex flex-col min-h-0 overflow-hidden justify-end">
+//                     <Chats messages={messages} />
+//                   </div>
+//                 )}
 
-                {/* input container */}
-                <div className="w-full shrink-0">
-                  <ChatInputCtn
-                    // handleSubmit={handleSubmit}
-                    text={text}
-                    setText={setText}
-                  />
-                </div>
+//                 {/* input container */}
+//                 <div className="w-full shrink-0">
+//                   <ChatInputCtn
+//                     // handleSubmit={handleSubmit}
+//                     text={text}
+//                     setText={setText}
+//                   />
+//                 </div>
 
-                {messages.length === 0 && (
-                  <div className="hidden md:flex items-center justify-center w-full text-center shrink-0">
-                    <p>
-                      Please be assured that your responses and information are
-                      all safe with us
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+//                 {messages.length === 0 && (
+//                   <div className="hidden md:flex items-center justify-center w-full text-center shrink-0">
+//                     <p>
+//                       Please be assured that your responses and information are
+//                       all safe with us
+//                     </p>
+//                   </div>
+//                 )}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// }
 
 // import React, { useState, useRef, useEffect } from "react";
 // import { Send, Menu, X, Sparkles } from "lucide-react";
@@ -383,3 +383,136 @@ export default function Chat() {
 //     </div>
 //   );
 // }
+
+import React, { useEffect, useState } from "react";
+import CustomNav from "./CustomNav";
+import Header from "./Header";
+import backbutton from "../images/backbutton.svg";
+import { Link } from "react-router-dom";
+import Chats from "./Chats";
+import ChatInputCtn from "./ChatInputCtn";
+import SideNav from "./SideNav";
+import ChatHero from "./ChatHero";
+import Nav from "./Nav";
+
+export default function Chat() {
+  const [text, setText] = useState("");
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Use visualViewport if available, fallback to window.innerHeight
+      const height = window.visualViewport 
+        ? window.visualViewport.height 
+        : window.innerHeight;
+      setViewportHeight(height);
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+      window.visualViewport.addEventListener('scroll', handleResize);
+    } else {
+      window.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+        window.visualViewport.removeEventListener('scroll', handleResize);
+      } else {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
+
+  const [messages, setMessages] = useState([
+    { text: "Hello!", from: "bot" },
+    { text: "How can I help you today?", from: "bot" },
+    // ... rest of your messages
+  ]);
+
+  return (
+    <div className="chatbg overflow-hidden">
+      <div className="">
+        <div className="md:hidden fixed top-0 left-0 z-50 w-full bg-[#111827]">
+          <Nav />
+
+          <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
+            <div className="cursor-pointer">
+              <img src={backbutton} alt="" />
+            </div>
+
+            <Link to="/explore">
+              <p className="font-figtree font-medium text-[13px] text-(--gray-500)">
+                Skip for Now
+              </p>
+            </Link>
+          </div>
+        </div>
+
+        {/* custom header for the chatbot */}
+        <div className="hidden md:block fixed top-0 w-full z-900">
+          <CustomNav />
+        </div>
+      </div>
+
+      {/* main container */}
+      <section className="flex h-full pt-[51px] md:pt-[88px]">
+        <div className="hidden md:flex bg-[#1E293B] w-[248px]">
+          <SideNav />
+        </div>
+
+        <div className="w-full md:flex-1 flex flex-col h-full overflow-hidden">
+          <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
+            <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px] shrink-0">
+              <p className="text-[20px] font-medium leading-10 font-jakarta">
+                Roadmap Journey
+              </p>
+            </div>
+
+            {messages.length === 0 && (
+              <div className="hidden md:flex items-center justify-center">
+                <ChatHero />
+              </div>
+            )}
+
+            {/* ctn */}
+            <div 
+              className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center md:max-h-dvh md:min-h-dvh mt-[111px]"
+              style={{
+                minHeight: window.innerWidth < 768 ? `${viewportHeight - 111}px` : undefined,
+                maxHeight: window.innerWidth < 768 ? `${viewportHeight - 111}px` : undefined,
+              }}
+            >
+              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
+                {/* message container */}
+                {messages.length > 0 && (
+                  <div className="flex-1 flex flex-col min-h-0 overflow-hidden justify-end">
+                    <Chats messages={messages} />
+                  </div>
+                )}
+
+                {/* input container */}
+                <div className="w-full shrink-0">
+                  <ChatInputCtn
+                    text={text}
+                    setText={setText}
+                  />
+                </div>
+
+                {messages.length === 0 && (
+                  <div className="hidden md:flex items-center justify-center w-full text-center shrink-0">
+                    <p>
+                      Please be assured that your responses and information are
+                      all safe with us
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
