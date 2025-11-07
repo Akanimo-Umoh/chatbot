@@ -63,7 +63,7 @@ export default function Chat() {
   return (
     <div className="chatbg overflow-hidden h-dvh md:max-h-dvh md:min-h-dvh">
       <div>
-        <div className="md:hidden fixed top-0 left-0 z-50 w-full">
+        <div className="md:hidden z-50 w-full">
           <Nav />
         </div>
 
@@ -116,7 +116,7 @@ export default function Chat() {
                 )}
 
                 {/* input container */}
-                <div className="w-full shrink-0">
+                <div className="w-full shrink-0 safe-area-bottom">
                   <ChatInputCtn
                     // handleSubmit={handleSubmit}
                     text={text}
