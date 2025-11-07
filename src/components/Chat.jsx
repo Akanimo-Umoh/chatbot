@@ -61,7 +61,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg overflow-hidden h-dvh md:max-h-dvh md:min-h-dvh">
+    <div className="chatbg h-dvh md:max-h-dvh md:min-h-dvh">
       <div>
         <div className="md:hidden z-50 w-full">
           <Nav />
@@ -74,7 +74,7 @@ export default function Chat() {
       </div>
 
       {/* main container */}
-      <section className="flex h-full pt-[51px] md:pt-[88px]">
+      <section className="flex h-full md:pt-[88px]">
         <div className="hidden md:flex bg-[#1E293B] w-[248px]">
           <SideNav />
         </div>
