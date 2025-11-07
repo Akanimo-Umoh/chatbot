@@ -116,7 +116,7 @@ export default function Chat() {
                 )}
 
                 {/* input container */}
-                <div className="w-full shrink-0 safe-area-bottom">
+                <div className="w-full safe-area-bottom">
                   <ChatInputCtn
                     // handleSubmit={handleSubmit}
                     text={text}
