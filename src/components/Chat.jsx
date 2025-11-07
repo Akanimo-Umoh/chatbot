@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CustomNav from "./CustomNav";
 import Header from "./Header";
 import backbutton from "../images/backbutton.svg";
@@ -11,7 +11,7 @@ import Nav from "./Nav";
 
 export default function Chat() {
   const [text, setText] = useState("");
-  // const [loading, setLoading] = useState(true);
+  const inputContainerRef = useRef(null);
 
   const [messages, setMessages] = useState([
     { text: "Hello!", from: "bot" },
@@ -58,7 +58,49 @@ export default function Chat() {
     { text: "How can I help you today?", from: "bot" },
     { text: "Hello!", from: "user" },
     { text: "How can I help you today?", from: "user" },
+    { text: "Hello!", from: "bot" },
+    { text: "How can I help you today?", from: "bot" },
+    { text: "Hello!", from: "user" },
+    { text: "How can I help you today?", from: "user" },
+    { text: "Hello!", from: "bot" },
+    { text: "How can I help you today?", from: "bot" },
+    { text: "Hello!", from: "user" },
+    { text: "How can I help you today?", from: "user" },
+    // ... rest of your messages
   ]);
+
+  // Handle mobile keyboard appearing
+  useEffect(() => {
+    let timeoutId;
+
+    const handleViewportResize = () => {
+      // Clear any pending scrolls
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      // Scroll input into view when keyboard appears
+      timeoutId = setTimeout(() => {
+        if (inputContainerRef.current) {
+          inputContainerRef.current.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'end',
+            inline: 'nearest'
+          });
+        }
+      }, 100);
+    };
+
+    // Use visualViewport for better mobile keyboard detection
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleViewportResize);
+    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleViewportResize);
+      }
+    };
+  }, []);
 
   return (
     <div className="chatbg h-[100dvh] md:max-h-dvh md:min-h-dvh">
@@ -67,7 +109,6 @@ export default function Chat() {
           <Nav />
         </div>
 
-        {/* custom header for the chatbot */}
         <div className="hidden md:block fixed top-0 w-full z-900">
           <CustomNav />
         </div>
@@ -105,23 +146,32 @@ export default function Chat() {
               </div>
             )}
 
-            {/* ctn */}
+            {/* Main chat container */}
             <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-0">
-              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:pb-[26px] md:bg-transparent w-full">
-                {/* message container */}
+              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:bg-transparent w-full max-h-full">
+                {/* Messages - scrollable area */}
                 {messages.length > 0 && (
-                  <div className="flex-1 flex flex-col min-h-0 overflow-hidden justify-end">
+                  <div className="flex-1 min-h-0 overflow-hidden">
                     <Chats messages={messages} />
                   </div>
                 )}
 
-                {/* input container */}
-                <div className="w-full safe-area-bottom md:relative fixed bottom-0 left-0 right-0 bg-[#141B27] z-50">
-                  <ChatInputCtn text={text} setText={setText} />
+                {/* Input container - fixed at bottom */}
+                <div 
+                  ref={inputContainerRef}
+                  className="w-full shrink-0"
+                  style={{ 
+                    paddingBottom: 'env(safe-area-inset-bottom, 0px)'
+                  }}
+                >
+                  <ChatInputCtn
+                    text={text}
+                    setText={setText}
+                  />
                 </div>
 
                 {messages.length === 0 && (
-                  <div className="hidden md:flex items-center justify-center w-full text-center shrink-0">
+                  <div className="hidden md:flex items-center justify-center w-full text-center shrink-0 pb-4">
                     <p>
                       Please be assured that your responses and information are
                       all safe with us
