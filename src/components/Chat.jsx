@@ -61,7 +61,7 @@ export default function Chat() {
   ]);
 
   return (
-    <div className="chatbg h-dvh md:max-h-dvh md:min-h-dvh">
+    <div className="chatbg h-[100dvh] md:max-h-dvh md:min-h-dvh">
       <div>
         <div className="md:hidden z-50 w-full">
           <Nav />
