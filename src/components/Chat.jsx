@@ -116,12 +116,8 @@ export default function Chat() {
                 )}
 
                 {/* input container */}
-                <div className="w-full safe-area-bottom">
-                  <ChatInputCtn
-                    // handleSubmit={handleSubmit}
-                    text={text}
-                    setText={setText}
-                  />
+                <div className="w-full safe-area-bottom md:relative fixed bottom-0 left-0 right-0 bg-[#141B27] z-50">
+                  <ChatInputCtn text={text} setText={setText} />
                 </div>
 
                 {messages.length === 0 && (
