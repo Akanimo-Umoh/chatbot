@@ -34,39 +34,6 @@ export default function Chat() {
     { text: "How can I help you today?", from: "bot" },
     { text: "Hello!", from: "user" },
     { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    { text: "Hello!", from: "bot" },
-    { text: "How can I help you today?", from: "bot" },
-    { text: "Hello!", from: "user" },
-    { text: "How can I help you today?", from: "user" },
-    // ... rest of your messages
   ]);
 
   // Handle mobile keyboard appearing
@@ -74,37 +41,38 @@ export default function Chat() {
     let timeoutId;
 
     const handleViewportResize = () => {
-      // Clear any pending scrolls
       if (timeoutId) clearTimeout(timeoutId);
-      
-      // Scroll input into view when keyboard appears
+
       timeoutId = setTimeout(() => {
         if (inputContainerRef.current) {
-          inputContainerRef.current.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'end',
-            inline: 'nearest'
+          inputContainerRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
           });
         }
       }, 100);
     };
 
-    // Use visualViewport for better mobile keyboard detection
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleViewportResize);
+      window.visualViewport.addEventListener("resize", handleViewportResize);
     }
 
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
       if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleViewportResize);
+        window.visualViewport.removeEventListener(
+          "resize",
+          handleViewportResize
+        );
       }
     };
   }, []);
 
   return (
-    <div className="chatbg h-[100dvh] md:max-h-dvh md:min-h-dvh">
-      <div>
+    <div className="chatbg h-[100dvh] max-h-[100dvh] overflow-hidden flex flex-col">
+      {/* Navigation - Fixed height, not part of flex */}
+      <div className="shrink-0">
         <div className="md:hidden z-50 w-full">
           <Nav />
         </div>
@@ -114,14 +82,17 @@ export default function Chat() {
         </div>
       </div>
 
-      {/* main container */}
-      <section className="flex h-full md:pt-[88px]">
-        <div className="hidden md:flex bg-[#1E293B] w-[248px]">
+      {/* Main container - Takes remaining space */}
+      <section className="flex flex-1 min-h-0 md:pt-[88px]">
+        {/* Side nav */}
+        <div className="hidden md:flex bg-[#1E293B] w-[248px] shrink-0">
           <SideNav />
         </div>
 
-        <div className="w-full md:flex-1 flex flex-col h-full overflow-hidden">
-          <div className="flex flex-1 flex-col w-full h-full min-h-0 overflow-hidden">
+        {/* Main chat area */}
+        <div className="w-full md:flex-1 flex flex-col min-h-0 overflow-hidden">
+          <div className="flex flex-1 flex-col w-full min-h-0 overflow-hidden">
+            {/* Mobile header - Fixed height */}
             <div className="flex pl-[22.54px] pr-[27px] items-center justify-between h-[60px] md:hidden shrink-0">
               <div className="cursor-pointer">
                 <img src={backbutton} alt="" />
@@ -134,42 +105,42 @@ export default function Chat() {
               </Link>
             </div>
 
+            {/* Desktop header - Fixed height */}
             <div className="hidden md:flex items-center justify-start py-[17px] pl-[25px] shrink-0">
               <p className="text-[20px] font-medium leading-10 font-jakarta">
                 Roadmap Journey
               </p>
             </div>
 
+            {/* Empty state hero */}
             {messages.length === 0 && (
-              <div className="hidden md:flex items-center justify-center">
+              <div className="hidden md:flex items-center justify-center flex-1">
                 <ChatHero />
               </div>
             )}
 
-            {/* Main chat container */}
+            {/* Chat content area - Takes remaining space */}
             <div className="flex-1 flex flex-col justify-end overflow-hidden md:px-[65px] md:items-center min-h-0">
-              <div className="flex flex-col justify-end overflow-hidden bg-[#141B27] min-h-0 md:max-w-[715px] md:bg-transparent w-full max-h-full">
-                {/* Messages - scrollable area */}
+              <div className="flex flex-col justify-end h-full bg-[#141B27] min-h-0 md:max-w-[715px] md:bg-transparent w-full overflow-hidden">
+                {/* Messages - Scrollable area */}
                 {messages.length > 0 && (
                   <div className="flex-1 min-h-0 overflow-hidden">
                     <Chats messages={messages} />
                   </div>
                 )}
 
-                {/* Input container - fixed at bottom */}
-                <div 
+                {/* Input container - Fixed at bottom */}
+                <div
                   ref={inputContainerRef}
-                  className="w-full shrink-0"
-                  style={{ 
-                    paddingBottom: 'env(safe-area-inset-bottom, 0px)'
+                  className="shrink-0"
+                  style={{
+                    paddingBottom: "env(safe-area-inset-bottom, 0px)",
                   }}
                 >
-                  <ChatInputCtn
-                    text={text}
-                    setText={setText}
-                  />
+                  <ChatInputCtn text={text} setText={setText} />
                 </div>
 
+                {/* Empty state message */}
                 {messages.length === 0 && (
                   <div className="hidden md:flex items-center justify-center w-full text-center shrink-0 pb-4">
                     <p>
