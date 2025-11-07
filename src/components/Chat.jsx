@@ -384,94 +384,261 @@
 //   );
 // }
 
-import { useState, useRef, useEffect } from "react";
+// import { useState, useRef, useEffect } from "react";
+
+// export default function Chat() {
+//   const [messages, setMessages] = useState([
+//     { id: 1, sender: "bot", text: "Hi 👋, how can I help you today?" },
+//   ]);
+//   const [input, setInput] = useState("");
+//   const chatEndRef = useRef(null);
+
+//   const handleSend = () => {
+//     if (!input.trim()) return;
+//     const userMsg = { id: Date.now(), sender: "user", text: input };
+//     setMessages((prev) => [...prev, userMsg]);
+//     setInput("");
+
+//     // Simulate bot reply
+//     setTimeout(() => {
+//       setMessages((prev) => [
+//         ...prev,
+//         { id: Date.now() + 1, sender: "bot", text: "Got it! 👍" },
+//       ]);
+//     }, 600);
+//   };
+
+//   useEffect(() => {
+//     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages]);
+
+//   return (
+//     <div className="flex flex-col h-[100dvh] bg-gray-50">
+//       {/* Header */}
+//       <header className="p-4 bg-white shadow-sm sticky top-0 z-10">
+//         <h1 className="font-semibold text-lg">Chatbot</h1>
+//       </header>
+
+//       {/* Chat Area */}
+//       <main className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+//         {messages.map((msg) => (
+//           <div
+//             key={msg.id}
+//             className={`flex ${
+//               msg.sender === "user" ? "justify-end" : "justify-start"
+//             }`}
+//           >
+//             <div
+//               className={`px-4 py-2 rounded-2xl max-w-[75%] text-sm ${
+//                 msg.sender === "user"
+//                   ? "bg-blue-600 text-white"
+//                   : "bg-gray-200 text-gray-900"
+//               }`}
+//             >
+//               {msg.text}
+//             </div>
+//           </div>
+//         ))}
+//         <div ref={chatEndRef} />
+//       </main>
+
+//       {/* Input Bar */}
+//       <footer
+//         className="
+//           fixed bottom-0 left-0 right-0 
+//           bg-white border-t border-gray-200 
+//           px-3 py-[env(safe-area-inset-bottom,0.75rem)] 
+//           flex items-center gap-2
+//         "
+//         style={{
+//           // ensures input stays visible above keyboard on mobile
+//           paddingBottom: "calc(env(safe-area-inset-bottom) + 0.75rem)",
+//         }}
+//       >
+//         <input
+//           type="text"
+//           value={input}
+//           onChange={(e) => setInput(e.target.value)}
+//           placeholder="Type a message..."
+//           className="
+//             flex-1 border border-gray-300 rounded-full 
+//             px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500
+//           "
+//         />
+//         <button
+//           onClick={handleSend}
+//           className="bg-blue-600 text-white rounded-full px-4 py-2 text-sm active:scale-95"
+//         >
+//           Send
+//         </button>
+//       </footer>
+//     </div>
+//   );
+// }
+
+
+import React, { useState, useRef, useEffect } from 'react';
+import { Send, Bot, User } from 'lucide-react';
 
 export default function Chat() {
   const [messages, setMessages] = useState([
-    { id: 1, sender: "bot", text: "Hi 👋, how can I help you today?" },
+    { id: 1, text: "Hi! I'm your assistant. How can I help you today?", sender: 'bot' }
   ]);
-  const [input, setInput] = useState("");
-  const chatEndRef = useRef(null);
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    const userMsg = { id: Date.now(), sender: "user", text: input };
-    setMessages((prev) => [...prev, userMsg]);
-    setInput("");
-
-    // Simulate bot reply
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { id: Date.now() + 1, sender: "bot", text: "Got it! 👍" },
-      ]);
-    }, 600);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [messages]);
 
-  return (
-    <div className="flex flex-col h-[100dvh] bg-gray-50">
-      {/* Header */}
-      <header className="p-4 bg-white shadow-sm sticky top-0 z-10">
-        <h1 className="font-semibold text-lg">Chatbot</h1>
-      </header>
+  // Handle keyboard on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (inputRef.current) {
+        inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    };
 
-      {/* Chat Area */}
-      <main className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
-        {messages.map((msg) => (
+    window.visualViewport?.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMessage = {
+      id: Date.now(),
+      text: input,
+      sender: 'user'
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setIsTyping(true);
+
+    // Simulate bot response
+    setTimeout(() => {
+      const botMessage = {
+        id: Date.now() + 1,
+        text: getBotResponse(input),
+        sender: 'bot'
+      };
+      setMessages(prev => [...prev, botMessage]);
+      setIsTyping(false);
+    }, 1000);
+  };
+
+  const getBotResponse = (userInput) => {
+    const input = userInput.toLowerCase();
+    if (input.includes('hello') || input.includes('hi')) {
+      return "Hello! Nice to meet you. What would you like to talk about?";
+    } else if (input.includes('how are you')) {
+      return "I'm doing great, thank you for asking! How can I assist you today?";
+    } else if (input.includes('help')) {
+      return "I'm here to help! You can ask me questions or just chat with me.";
+    } else if (input.includes('bye')) {
+      return "Goodbye! Have a wonderful day!";
+    } else {
+      return "That's interesting! Tell me more about that.";
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Header */}
+      <div className="bg-white shadow-md px-4 py-4 flex items-center gap-3">
+        <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+          <Bot className="w-6 h-6 text-white" />
+        </div>
+        <div>
+          <h1 className="text-lg font-semibold text-gray-800">AI Assistant</h1>
+          <p className="text-xs text-gray-500">Always here to help</p>
+        </div>
+      </div>
+
+      {/* Messages Container */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        {messages.map((message) => (
           <div
-            key={msg.id}
-            className={`flex ${
-              msg.sender === "user" ? "justify-end" : "justify-start"
-            }`}
+            key={message.id}
+            className={`flex gap-2 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
+            {message.sender === 'bot' && (
+              <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+            )}
             <div
-              className={`px-4 py-2 rounded-2xl max-w-[75%] text-sm ${
-                msg.sender === "user"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-900"
+              className={`max-w-xs sm:max-w-md px-4 py-2 rounded-2xl ${
+                message.sender === 'user'
+                  ? 'bg-indigo-600 text-white rounded-tr-none'
+                  : 'bg-white text-gray-800 rounded-tl-none shadow-sm'
               }`}
             >
-              {msg.text}
+              <p className="text-sm">{message.text}</p>
             </div>
+            {message.sender === 'user' && (
+              <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <User className="w-5 h-5 text-white" />
+              </div>
+            )}
           </div>
         ))}
-        <div ref={chatEndRef} />
-      </main>
+        
+        {isTyping && (
+          <div className="flex gap-2 justify-start">
+            <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <Bot className="w-5 h-5 text-white" />
+            </div>
+            <div className="bg-white px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
 
-      {/* Input Bar */}
-      <footer
-        className="
-          fixed bottom-0 left-0 right-0 
-          bg-white border-t border-gray-200 
-          px-3 py-[env(safe-area-inset-bottom,0.75rem)] 
-          flex items-center gap-2
-        "
-        style={{
-          // ensures input stays visible above keyboard on mobile
-          paddingBottom: "calc(env(safe-area-inset-bottom) + 0.75rem)",
-        }}
-      >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-          className="
-            flex-1 border border-gray-300 rounded-full 
-            px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500
-          "
-        />
-        <button
-          onClick={handleSend}
-          className="bg-blue-600 text-white rounded-full px-4 py-2 text-sm active:scale-95"
-        >
-          Send
-        </button>
-      </footer>
+      {/* Input Container */}
+      <div ref={inputRef} className="bg-white border-t border-gray-200 px-4 py-3 safe-area-bottom">
+        <div className="flex gap-2 items-end max-w-4xl mx-auto">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your message..."
+            rows="1"
+            className="flex-1 resize-none border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm"
+            style={{ maxHeight: '100px' }}
+          />
+          <button
+            onClick={handleSend}
+            disabled={!input.trim()}
+            className="bg-indigo-600 text-white rounded-full p-3 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+          >
+            <Send className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
